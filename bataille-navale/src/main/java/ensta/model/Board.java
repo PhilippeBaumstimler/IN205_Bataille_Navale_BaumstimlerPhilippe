@@ -7,6 +7,8 @@ public class Board implements IBoard {
 
 	private static final int DEFAULT_SIZE = 10;
 	private int size;
+	private String name;
+	private char[] character;
 	
 	public Board() {
 		this.size = DEFAULT_SIZE;
