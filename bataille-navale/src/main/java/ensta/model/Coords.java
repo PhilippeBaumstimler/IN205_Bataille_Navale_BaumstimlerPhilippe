@@ -3,7 +3,10 @@ package ensta.model;
 public class Coords{
     public Coords(int nx, int ny){}
     public Coords(Coords nCoords){}
-    public int getX(){
+    public Coords() {
+		// TODO Auto-generated constructor stub
+	}
+	public int getX(){
         return 0;
     }
     public int getY(){

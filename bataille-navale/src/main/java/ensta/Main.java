@@ -8,7 +8,8 @@ public class Main {
 	public static void main(String args[]) {
         //new Game().init().run();
         Board board = new Board();
-		    board.print();
+		board.print();
+        System.out.println ("oui");
     }
 
 }

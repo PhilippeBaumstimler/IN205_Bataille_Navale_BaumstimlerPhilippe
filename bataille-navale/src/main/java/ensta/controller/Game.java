@@ -42,9 +42,10 @@ public class Game {
 
 
 			// TODO init boards
-			Board board1 = new Board();
-			Board board2 = new Board();
-			board.print();
+			//Board board1 = new Board();
+			//Board board2 = new Board();
+			Board board = new Board();
+			board .print();
 			// TODO init this.player1 & this.player2
 
 			// TODO place player ships
@@ -163,7 +164,7 @@ public class Game {
 	}
 
 	private static List<AbstractShip> createDefaultShips() {
-		return Arrays.asList(new AbstractShip[] { new Destroyer(), new Submarine(), new Submarine(), new BattleShip(),
-				new Carrier() });
+		return Arrays.asList(new AbstractShip[] { new Destroyer(null, null, 0, null), new Submarine(null, null, 0, null), new Submarine(null, null, 0, null), new BattleShip(null, null, 0, null),
+				new Carrier(null, null, 0, null) });
 	}
 }

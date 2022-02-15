@@ -15,6 +15,11 @@ public class BattleShipsAI implements Serializable {
 	 */
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
 	 * My board. My ships have to be put on this one.
 	 */
 	private final IBoard board;
@@ -60,9 +65,9 @@ public class BattleShipsAI implements Serializable {
 	 * @param ships the ships to put
 	 */
 	public void putShips(AbstractShip ships[]) {
-		Coords coords;
-		Orientation orientation;
-		Orientation[] orientations = Orientation.values();
+		Coords coords = null;
+		//Orientation orientation;
+		//Orientation[] orientations = Orientation.values();
 
 		for (AbstractShip ship : ships) {
 			do {
