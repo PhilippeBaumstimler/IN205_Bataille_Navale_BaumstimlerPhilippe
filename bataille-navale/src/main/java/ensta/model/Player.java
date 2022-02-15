@@ -46,9 +46,15 @@ public class Player {
 			// TODO set ship orientation
 			// TODO put ship at given position
 			// TODO when ship placement successful
-			++i;
-			done = i == 5;
+			Coords coords = new Coords(res.x, res.y);
+			if(res.orientation.equals("EAST")) ship.setOrientation(Orientation.EAST);
+			else if(res.orientation.equals("WEST")) ship.setOrientation(Orientation.WEST);
+			else if(res.orientation.equals("NORTH")) ship.setOrientation(Orientation.NORTH);
+			else if(res.orientation.equals("SOUTH")) ship.setOrientation(Orientation.SOUTH);
+			if(board.putShip(ship, coords)) ++i;
+			else System.out.println("Mauvais placement. Veuillez resaisir les informations de placement.");
 
+			done = i == 5;
 			board.print();
 		} while (!done);
 	}
