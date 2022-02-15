@@ -8,7 +8,7 @@ public abstract class AbstractShip{
     private String name;
     private int length;
     private Orientation ori;
-
+    public AbstractShip(){}
     public AbstractShip(String aName, String aLabel, int aLength, Orientation anOri ){
         this.name = aName;
         this.label = aLabel;
@@ -16,9 +16,20 @@ public abstract class AbstractShip{
         this.ori = anOri;
     }
 
-    public abstract String getLabel();
-    public abstract String getName();
-    public abstract int getLength();
-    public abstract Orientation getOrientation();
+    public String getLabel(){
+        return label;
+    }
+    public String getName(){
+        return name;
+    }
+    public int getLength(){
+        return length;
+    }
+    public Orientation getOrientation(){
+        return ori;
+    }
+    public void setOrientation(Orientation anOri){
+        this.ori = anOri;
+    }
     public abstract boolean isSunk();
 }
