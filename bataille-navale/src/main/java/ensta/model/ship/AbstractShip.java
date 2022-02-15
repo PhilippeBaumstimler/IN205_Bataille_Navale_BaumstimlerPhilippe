@@ -4,19 +4,19 @@ import ensta.util.Orientation;
 
 
 public abstract class AbstractShip{
-    private String label;
+    private Character label;
     private String name;
     private int length;
     private Orientation ori;
     public AbstractShip(){}
-    public AbstractShip(String aName, String aLabel, int aLength, Orientation anOri ){
+    public AbstractShip(String aName, Character aLabel, int aLength, Orientation anOri ){
         this.name = aName;
         this.label = aLabel;
         this.length = aLength;
         this.ori = anOri;
     }
 
-    public String getLabel(){
+    public Character getLabel(){
         return label;
     }
     public String getName(){

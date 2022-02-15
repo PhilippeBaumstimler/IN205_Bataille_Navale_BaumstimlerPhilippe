@@ -6,7 +6,7 @@ public class Submarine  extends AbstractShip{
 	public Submarine(){
 		this.setOrientation(Orientation.EAST);
 	}
-    public Submarine(String aName, String aLabel, int aLength, Orientation anOri) {
+    public Submarine(String aName, Character aLabel, int aLength, Orientation anOri) {
 		super(aName, aLabel, aLength, anOri);
 		// TODO Auto-generated constructor stub
 	}

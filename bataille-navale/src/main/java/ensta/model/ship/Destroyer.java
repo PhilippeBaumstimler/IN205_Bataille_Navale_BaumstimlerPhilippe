@@ -6,7 +6,7 @@ public class Destroyer extends AbstractShip{
 	public Destroyer(){
 		this.setOrientation(Orientation.EAST);
 	}
-    public Destroyer(String aName, String aLabel, int aLength, Orientation anOri) {
+    public Destroyer(String aName, Character aLabel, int aLength, Orientation anOri) {
 		super(aName, aLabel, aLength, anOri);
 		// TODO Auto-generated constructor stub
 	}
