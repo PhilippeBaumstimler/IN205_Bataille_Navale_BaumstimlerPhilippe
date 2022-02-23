@@ -1,25 +1,27 @@
 package ensta.model;
 
 import ensta.model.ship.AbstractShip;
+import ensta.model.ship.ShipState;
 import ensta.util.Orientation;
+import ensta.util.ColorUtil;
 
 public class Board implements IBoard {
 
 	private static final int DEFAULT_SIZE = 10;
 	private int size;
 	private String name;
-	private Character[] boat;
+	private ShipState[] boat;
 	private boolean[] hits;
 	
 	public Board() {
 		this.size = DEFAULT_SIZE;
-		boat = new Character[size*size];
+		boat = new ShipState[size*size];
 		hits = new boolean[size*size];
 		for(int i=0;i<size*size;i++){
 			hits[i]=false;
 		}
 		for(int i=0;i<size*size;i++){
-			Character ch = '.';
+			ShipState ch = new ShipState();
 			boat[i] = ch;
 		}
 	}
@@ -27,13 +29,13 @@ public class Board implements IBoard {
 	public Board(String aName, int s){
 		this.name = aName;
 		this.size = s;
-		boat = new Character[size*size];
+		boat = new ShipState[size*size];
 		hits = new boolean[size*size];
 		for(int i=0;i<size*size;i++){
 			hits[i]=false;
 		}
 		for(int i=0;i<size*size;i++){
-			Character ch = '.';
+			ShipState ch = new ShipState();
 			boat[i] = ch;
 		}
 	}
@@ -71,10 +73,15 @@ public class Board implements IBoard {
 			}
 			System.out.print(i + " ");
 			for(int j=0; j<size; j++){
-				if(boat[i*size + j].toString()=="."){
+				if(boat[i*size + j].getShip()==null){
 					System.out.print(". ");
 				}else{
-					System.out.print(boat[i*size +j].toString() + " ");
+					if(boat[i*size + j].isStruck()){
+						System.out.print(ColorUtil.colorize(boat[i*size +j].toString(),ColorUtil.Color.RED));
+					}else{
+						System.out.print(boat[i*size +j].toString());
+					}
+					System.out.print(" ");
 				}
 			}
 			System.out.print("    ");
@@ -84,7 +91,12 @@ public class Board implements IBoard {
 			System.out.print(i + " ");
 			for(int j=0; j<size; j++){
 				if(hits[i*size + j]){
-					System.out.print("x ");
+					if(boat[i*size + j].getShip() != null){
+						System.out.print(ColorUtil.colorize("x ",ColorUtil.Color.RED));
+						boat[i*size + j].addStrike();
+					}else{
+						System.out.print("x ");
+					}
 				}else{
 					System.out.print(". ");
 				}
@@ -95,7 +107,7 @@ public class Board implements IBoard {
 	}
 
 	public boolean hasShip(Coords aCoord){
-		if(boat[aCoord.getY()*size + aCoord.getX()].toString().equals(".")) return false;
+		if(boat[aCoord.getY()*size + aCoord.getX()].getShip() == null) return false;
 		return true;
 	}
 
@@ -145,11 +157,11 @@ public class Board implements IBoard {
 		this.name = name;
 	}
 
-	public Character[] getboat() {
+	public ShipState[] getboat() {
 		return boat;
 	}
 
-	public void setboat(Character[] boat) {
+	public void setboat(ShipState[] boat) {
 		this.boat = boat;
 	}
 
@@ -170,7 +182,8 @@ public class Board implements IBoard {
 		if(canPutShip(ship, coords)){
 			Coords iCoords = new Coords(coords);
 			for (int i = 0; i < ship.getLength(); ++i) {
-				boat[iCoords.getY()*size + iCoords.getX()] = ship.getLabel();
+				ShipState state = new ShipState(ship);
+				boat[iCoords.getY()*size + iCoords.getX()] = state;
 				iCoords.setX(iCoords.getX() + dx);
 				iCoords.setY(iCoords.getY() + dy);
 			}
@@ -180,19 +193,23 @@ public class Board implements IBoard {
 
 	@Override
 	public void setHit(boolean hit, Coords coords) {
-		// TODO Auto-generated method stub
 		hits[coords.getY()*size + coords.getX()]=hit;
 	}
 
 	@Override
 	public Boolean getHit(Coords coords) {
-		// TODO Auto-generated method stub
 		return hits[coords.getY()*size + coords.getX()];
 	}
 
 	@Override
 	public Hit sendHit(Coords res) {
-		// TODO Auto-generated method stub
-		return null;
+		return sendHit(res.getX(), res.getY());
 	}
+
+	@Override
+	public Hit sendHit(int x, int y) {
+		
+	}
+
+
 }

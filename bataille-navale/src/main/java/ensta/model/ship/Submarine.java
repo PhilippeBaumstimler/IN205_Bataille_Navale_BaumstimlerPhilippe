@@ -11,8 +11,4 @@ public class Submarine  extends AbstractShip{
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public boolean isSunk(){
-        return true;
-    }
 }

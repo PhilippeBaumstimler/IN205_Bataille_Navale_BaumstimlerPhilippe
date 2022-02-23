@@ -11,7 +11,4 @@ public class BattleShip extends AbstractShip{
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean isSunk(){
-        return true;
-    }
 }

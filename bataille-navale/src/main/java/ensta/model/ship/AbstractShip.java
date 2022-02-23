@@ -8,6 +8,8 @@ public abstract class AbstractShip{
     private String name;
     private int length;
     private Orientation ori;
+    private int strikeCount;
+
     public AbstractShip(){}
     public AbstractShip(String aName, Character aLabel, int aLength, Orientation anOri ){
         this.name = aName;
@@ -31,5 +33,10 @@ public abstract class AbstractShip{
     public void setOrientation(Orientation anOri){
         this.ori = anOri;
     }
-    public abstract boolean isSunk();
+    public void addStrike(){
+        strikeCount ++;
+    }
+    public boolean isSunk(){
+        return length == strikeCount;
+    }
 }

@@ -10,9 +10,4 @@ public class Destroyer extends AbstractShip{
 		super(aName, aLabel, aLength, anOri);
 		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public boolean isSunk(){
-        return true;
-    }
 }
