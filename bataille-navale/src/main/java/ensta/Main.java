@@ -16,9 +16,14 @@ public class Main {
     Coords coords = new Coords(0,0);
     board.putShip(aShip, coords);
     board.print();
-
-    board.setHit(true, coords);
+    System.out.println(board.sendHit(0,1));
 		board.print();
+    System.out.println(board.sendHit(1,0));
+    board.print();
+    System.out.println(board.sendHit(0,0));
+    board.print();
+    System.out.println(board.sendHit(0,0));
+    board.print();
     //board.print();
 
     }

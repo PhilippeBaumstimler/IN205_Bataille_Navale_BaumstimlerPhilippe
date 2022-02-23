@@ -93,7 +93,6 @@ public class Board implements IBoard {
 				if(hits[i*size + j]){
 					if(boat[i*size + j].getShip() != null){
 						System.out.print(ColorUtil.colorize("x ",ColorUtil.Color.RED));
-						boat[i*size + j].addStrike();
 					}else{
 						System.out.print("x ");
 					}
@@ -203,12 +202,28 @@ public class Board implements IBoard {
 
 	@Override
 	public Hit sendHit(Coords res) {
-		return sendHit(res.getX(), res.getY());
+		setHit(true, res);
+		if(boat[res.getY()*size + res.getX()].getShip()==null){
+			return Hit.MISS;
+		}else{
+			if(!boat[res.getY()*size + res.getX()].isStruck()){
+				boat[res.getY()*size + res.getX()].addStrike();
+				if(boat[res.getY()*size + res.getX()].isSunk()){
+					return Hit.fromInt(boat[res.getY()*size + res.getX()].getShip().getLength());
+				}else{
+					return Hit.STRIKE;
+				}
+			}else{
+				System.out.println("Erreur. Frappe déjà réalisée");
+				return null;
+			}
+		}
 	}
 
 	@Override
 	public Hit sendHit(int x, int y) {
-		
+		Coords coords = new Coords(x,y);
+		return sendHit(coords);
 	}
 
 
