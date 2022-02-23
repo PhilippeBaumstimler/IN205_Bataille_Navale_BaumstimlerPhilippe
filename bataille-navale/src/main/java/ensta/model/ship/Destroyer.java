@@ -4,7 +4,7 @@ import ensta.util.Orientation;
 
 public class Destroyer extends AbstractShip{
 	public Destroyer(){
-		this.setOrientation(Orientation.EAST);
+		super("Destroyer", 'D', 2, Orientation.EAST);
 	}
     public Destroyer(String aName, Character aLabel, int aLength, Orientation anOri) {
 		super(aName, aLabel, aLength, anOri);

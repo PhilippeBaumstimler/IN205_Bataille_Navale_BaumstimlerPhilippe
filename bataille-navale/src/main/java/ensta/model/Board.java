@@ -11,14 +11,14 @@ public class Board implements IBoard {
 	private int size;
 	private String name;
 	private ShipState[] boat;
-	private boolean[] hits;
+	private Boolean[] hits;
 	
 	public Board() {
 		this.size = DEFAULT_SIZE;
 		boat = new ShipState[size*size];
-		hits = new boolean[size*size];
+		hits = new Boolean[size*size];
 		for(int i=0;i<size*size;i++){
-			hits[i]=false;
+			this.hits[i]=null;
 		}
 		for(int i=0;i<size*size;i++){
 			ShipState ch = new ShipState();
@@ -30,9 +30,9 @@ public class Board implements IBoard {
 		this.name = aName;
 		this.size = s;
 		boat = new ShipState[size*size];
-		hits = new boolean[size*size];
+		hits = new Boolean[size*size];
 		for(int i=0;i<size*size;i++){
-			hits[i]=false;
+			this.hits[i]=null;
 		}
 		for(int i=0;i<size*size;i++){
 			ShipState ch = new ShipState();
@@ -90,8 +90,8 @@ public class Board implements IBoard {
 			}
 			System.out.print(i + " ");
 			for(int j=0; j<size; j++){
-				if(hits[i*size + j]){
-					if(boat[i*size + j].getShip() != null){
+				if(hits[i*size + j]!=null){
+					if(hits[i*size + j]){
 						System.out.print(ColorUtil.colorize("x ",ColorUtil.Color.RED));
 					}else{
 						System.out.print("x ");
@@ -214,7 +214,6 @@ public class Board implements IBoard {
 					return Hit.STRIKE;
 				}
 			}else{
-				System.out.println("Erreur. Frappe déjà réalisée");
 				return null;
 			}
 		}

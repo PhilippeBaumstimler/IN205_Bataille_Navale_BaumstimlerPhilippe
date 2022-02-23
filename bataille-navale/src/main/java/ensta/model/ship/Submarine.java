@@ -4,7 +4,7 @@ import ensta.util.Orientation;
 
 public class Submarine  extends AbstractShip{
 	public Submarine(){
-		this.setOrientation(Orientation.EAST);
+		super("Submarine", 'S', 3, Orientation.EAST);
 	}
     public Submarine(String aName, Character aLabel, int aLength, Orientation anOri) {
 		super(aName, aLabel, aLength, anOri);

@@ -65,13 +65,14 @@ public class BattleShipsAI implements Serializable {
 	 * @param ships the ships to put
 	 */
 	public void putShips(AbstractShip ships[]) {
-		Coords coords = null;
+		Coords coords = new Coords();
 		//Orientation orientation;
 		//Orientation[] orientations = Orientation.values();
-
 		for (AbstractShip ship : ships) {
 			do {
-				// TODO use Random to pick a random x, y & orientation
+				coords = Coords.randomCoords(board.getSize());
+				Orientation o = Orientation.randomOrientation();
+				ship.setOrientation(o);
 			} while (!board.canPutShip(ship, coords));
 			board.putShip(ship, coords);
 		}
@@ -89,6 +90,7 @@ public class BattleShipsAI implements Serializable {
 		}
 
 		// already found strike & orientation?
+		
 		if (lastVertical != null) {
 			if (lastVertical) {
 				res = pickVCoords();
@@ -113,21 +115,19 @@ public class BattleShipsAI implements Serializable {
 				lastStrike = null;
 			}
 		}
-
 		if (lastStrike == null) {
 			res = pickRandomCoords();
 		}
-
 		Hit hit = opponent.sendHit(res);
 		board.setHit(hit != Hit.MISS, res);
-
 		if (hit != Hit.MISS) {
 			if (lastStrike != null) {
 				lastVertical = guessOrientation(lastStrike, res);
 			}
 			lastStrike = res;
 		}
-
+		System.out.println(lastVertical);
+		System.out.println(lastStrike);
 		coords.setCoords(res);
 		return hit;
 	}
@@ -137,7 +137,7 @@ public class BattleShipsAI implements Serializable {
 	 */
 
 	private boolean guessOrientation(Coords lastStrike2, Coords res) {
-		return lastStrike2.getX() == res.getY();
+		return lastStrike2.getX() == res.getX();
 	}
 
 	private boolean isUndiscovered(Coords coords) {
