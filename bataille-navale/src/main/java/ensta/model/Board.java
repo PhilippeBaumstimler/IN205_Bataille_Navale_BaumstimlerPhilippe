@@ -186,12 +186,13 @@ public class Board implements IBoard {
 				iCoords.setX(iCoords.getX() + dx);
 				iCoords.setY(iCoords.getY() + dy);
 			}
+			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void setHit(boolean hit, Coords coords) {
+	public void setHit(Boolean hit, Coords coords) {
 		hits[coords.getY()*size + coords.getX()]=hit;
 	}
 
@@ -202,7 +203,6 @@ public class Board implements IBoard {
 
 	@Override
 	public Hit sendHit(Coords res) {
-		setHit(true, res);
 		if(boat[res.getY()*size + res.getX()].getShip()==null){
 			return Hit.MISS;
 		}else{

@@ -15,6 +15,7 @@ import ensta.model.ship.BattleShip;
 import ensta.model.ship.Carrier;
 import ensta.model.ship.Destroyer;
 import ensta.model.ship.Submarine;
+import ensta.ai.PlayerAI;
 import ensta.util.ColorUtil;
 
 public class Game {
@@ -42,13 +43,22 @@ public class Game {
 
 
 			// TODO init boards
-			//Board board1 = new Board();
-			//Board board2 = new Board();
-			Board board = new Board();
-			board .print();
+			Board board1 = new Board();
+			Board board2 = new Board();
+
 			// TODO init this.player1 & this.player2
+			List<AbstractShip> ships1 = Game.createDefaultShips();
+			List<AbstractShip> ships2 = Game.createDefaultShips();
+			this.player1 = new Player(board1, board2, ships1);
+			this.player2 = new PlayerAI(board2, board1, ships2);
 
 			// TODO place player ships
+			board1.print();
+			this.player1.putShips();
+			System.out.println("Fin des placements, début de la partie");
+			this.player2.putShips();
+		
+
 		}
 		return this;
 	}
@@ -65,18 +75,19 @@ public class Game {
 		b1.print();
 		boolean done;
 		do {
-			hit = Hit.MISS; // TODO player1 send a hit
-			boolean strike = hit != Hit.MISS; // TODO set this hit on his board (b1)
-
-			done = updateScore();
+			System.out.println("A votre tour du player1: ")
+			hit = player1.sendHit(coords); // TODO player1 send a hit
+			Boolean strike = hit != Hit.MISS; // TODO set this hit on his board (b1)
+			b1.setHit(strike, coords);
 			b1.print();
+			done = updateScore();
 			System.out.println(makeHitMessage(false /* outgoing hit */, coords, hit));
-
 			// save();
-
 			if (!done && !strike) {
 				do {
-					hit = Hit.MISS; // TODO player2 send a hit.
+					System.out.println("Au tour du player2: ")
+					sleep(1000);
+					hit = player2.sendHit(coords); // TODO player2 send a hit.
 
 					strike = hit != Hit.MISS;
 					if (strike) {
@@ -90,12 +101,11 @@ public class Game {
 					}
 				} while (strike && !done);
 			}
-
 		} while (!done);
 
 		SAVE_FILE.delete();
 		System.out.println(String.format("joueur %d gagne", player1.isLose() ? 2 : 1));
-		sin.close();
+		//sin.close();
 	}
 
 	private void save() {
@@ -159,12 +169,20 @@ public class Game {
 			color = ColorUtil.Color.RED;
 		}
 		msg = String.format("%s Frappe en %c%d : %s", incoming ? "<=" : "=>", ((char) ('A' + coords.getX())),
-				(coords.getY() + 1), msg);
+				(coords.getY()), msg);
 		return ColorUtil.colorize(msg, color);
 	}
 
 	private static List<AbstractShip> createDefaultShips() {
-		return Arrays.asList(new AbstractShip[] { new Destroyer(null, null, 0, null), new Submarine(null, null, 0, null), new Submarine(null, null, 0, null), new BattleShip(null, null, 0, null),
-				new Carrier(null, null, 0, null) });
+		return Arrays.asList(new AbstractShip[] { new Destroyer(), new Submarine(), new Submarine(), new BattleShip(),
+				new Carrier() });
 	}
+
+	private static void sleep(int ms) {
+		try {
+		  Thread.sleep(ms);
+		} catch (InterruptedException e) {
+		  e.printStackTrace();
+		}
+	  }
 }

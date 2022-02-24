@@ -126,8 +126,6 @@ public class BattleShipsAI implements Serializable {
 			}
 			lastStrike = res;
 		}
-		System.out.println(lastVertical);
-		System.out.println(lastStrike);
 		coords.setCoords(res);
 		return hit;
 	}
@@ -141,7 +139,10 @@ public class BattleShipsAI implements Serializable {
 	}
 
 	private boolean isUndiscovered(Coords coords) {
-		return coords.isInBoard(board.getSize()) && board.getHit(coords) == null;
+		if(coords.isInBoard(board.getSize())) {
+			return board.getHit(coords) == null;
+		}
+		return false;
 	}
 
 	private Coords pickRandomCoords() {

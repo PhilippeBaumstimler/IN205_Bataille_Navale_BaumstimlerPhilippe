@@ -37,7 +37,7 @@ public class Coords{
         this.y = nCoords.getY();
     }
     public boolean isInBoard(int aValue){
-        return true;
+        return x<aValue && y<aValue && y>=0 && x>=0;
     }
     public static Coords randomCoords(int size){
         Random ran = new Random();

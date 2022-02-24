@@ -47,11 +47,13 @@ public class Player {
 			// TODO put ship at given position
 			// TODO when ship placement successful
 			Coords coords = new Coords(res.x, res.y);
-			if(res.orientation.equals("EAST")) ship.setOrientation(Orientation.EAST);
-			else if(res.orientation.equals("WEST")) ship.setOrientation(Orientation.WEST);
-			else if(res.orientation.equals("NORTH")) ship.setOrientation(Orientation.NORTH);
-			else if(res.orientation.equals("SOUTH")) ship.setOrientation(Orientation.SOUTH);
-			if(board.putShip(ship, coords)) ++i;
+			if(res.orientation.compareToIgnoreCase("east")==0) ship.setOrientation(Orientation.EAST);
+			else if(res.orientation.compareToIgnoreCase("west")==0) ship.setOrientation(Orientation.WEST);
+			else if(res.orientation.compareToIgnoreCase("north")==0) ship.setOrientation(Orientation.NORTH);
+			else if(res.orientation.compareToIgnoreCase("south")==0) ship.setOrientation(Orientation.SOUTH);
+			if(board.putShip(ship, coords)){
+				++i;
+			}
 			else System.out.println("Mauvais placement. Veuillez resaisir les informations de placement.");
 
 			done = i == 5;
@@ -60,7 +62,7 @@ public class Player {
 	}
 
 	public Hit sendHit(Coords coords) {
-		Coords res = null;
+		Coords res = new Coords();
 		boolean done = false;
 		Hit hit = null;
 		do {
@@ -68,11 +70,19 @@ public class Player {
 			InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
 			res.setX(hitInput.x);
 			res.setY(hitInput.y);
+			if(res.isInBoard(board.getSize())){
+				hit = this.opponentBoard.sendHit(res);
+				if(board.getHit(res)!=null){
+					System.out.println("Erreur. Frappe déjà réalisée");
+					hit = null;
+				}
+			}else{
+				System.out.println("Erreur. Mauvaises coordonnées");
+			}
 			// TODO call sendHit on this.opponentBoard
-			hit = this.opponentBoard.sendHit(res);
+
 			// TODO : Game expects sendHit to return BOTH hit result & hit coords.
 			// return hit is obvious. But how to return coords at the same time ?
-			if(hit==null) System.out.println("Erreur. Frappe déjà réalisée");
 			done = hit != null;
 		} while (!done);
 		coords.setCoords(res);
