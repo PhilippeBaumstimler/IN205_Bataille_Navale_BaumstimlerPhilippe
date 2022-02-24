@@ -30,33 +30,52 @@ public class Game {
 	 */
 	private Player player1;
 	private Player player2;
+	private boolean multiplayer;
 	private Scanner sin;
 
 	/*
 	 * *** Constructeurs
 	 */
 	public Game() {
+		this.multiplayer = false;
+	}
+	public Game(boolean multi) {
+		this.multiplayer = multi;
 	}
 
 	public Game init() {
 		if (!loadSave()) {
 
 
-			// TODO init boards
 			Board board1 = new Board();
 			Board board2 = new Board();
 
-			// TODO init this.player1 & this.player2
-			List<AbstractShip> ships1 = Game.createDefaultShips();
-			List<AbstractShip> ships2 = Game.createDefaultShips();
-			this.player1 = new Player(board1, board2, ships1);
-			this.player2 = new PlayerAI(board2, board1, ships2);
+			if(!multiplayer){
+				System.out.println("Bienvenu dans le mode: Joueur Contre IA");
+				List<AbstractShip> ships1 = Game.createDefaultShips();
+				List<AbstractShip> ships2 = Game.createDefaultShips();
+				this.player1 = new Player(board1, board2, ships1);
+				this.player2 = new PlayerAI(board2, board1, ships2);
+				board1.print();
+				System.out.println("Veuillez placer vos bateaux sur la grille");
+				this.player1.putShips();
+				this.player2.putShips();
+				System.out.println("Fin des placements, début de la partie");
 
-			// TODO place player ships
-			board1.print();
-			this.player1.putShips();
-			System.out.println("Fin des placements, début de la partie");
-			this.player2.putShips();
+			}else{
+				System.out.println("Bienvenu dans le mode: Joueur Contre Joueur");
+				List<AbstractShip> ships1 = Game.createDefaultShips();
+				List<AbstractShip> ships2 = Game.createDefaultShips();
+				this.player1 = new Player(board1, board2, ships1);
+				this.player2 = new Player(board2, board1, ships2);
+				System.out.println("Joueur 1: Veuillez placer vos bateaux sur la grille");
+				board1.print();
+				this.player1.putShips();
+				System.out.println("Joueur 2: Veuillez placer vos bateaux sur la grille");
+				board2.print();
+				this.player2.putShips();
+				System.out.println("Fin des placements, début de la partie");
+			}
 		
 
 		}
@@ -69,31 +88,47 @@ public class Game {
 	public void run() {
 		Coords coords = new Coords();
 		Board b1 = player1.getBoard();
+		Board b2 = player2.getBoard();
 		Hit hit;
 
 		// main loop
-		b1.print();
+		if(!multiplayer){
+			b1.print();
+		}
 		boolean done;
 		do {
-			System.out.println("A votre tour du player1: ")
+			System.out.println("Au tour du Joueur 1: ");
+			if(multiplayer){
+				b1.print();
+			}
 			hit = player1.sendHit(coords); // TODO player1 send a hit
 			Boolean strike = hit != Hit.MISS; // TODO set this hit on his board (b1)
 			b1.setHit(strike, coords);
-			b1.print();
 			done = updateScore();
+			sleep(500);
 			System.out.println(makeHitMessage(false /* outgoing hit */, coords, hit));
+			b1.print();
 			// save();
 			if (!done && !strike) {
 				do {
-					System.out.println("Au tour du player2: ")
-					sleep(1000);
+					if(multiplayer){
+						System.out.println("Au tour du Joueur 2: ");
+						b2.print();
+					}else{
+						System.out.println("Au tour de l'IA: ");
+						sleep(1000);
+					}
 					hit = player2.sendHit(coords); // TODO player2 send a hit.
-
 					strike = hit != Hit.MISS;
-					if (strike) {
+					if(multiplayer){
+						b2.setHit(strike, coords);
+						b2.print();
+					}
+					sleep(500);
+					System.out.println(makeHitMessage(true /* incoming hit */, coords, hit));
+					if (strike && !multiplayer) {
 						b1.print();
 					}
-					System.out.println(makeHitMessage(true /* incoming hit */, coords, hit));
 					done = updateScore();
 
 					if (!done) {

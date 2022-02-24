@@ -7,8 +7,11 @@ import ensta.model.ship.*;
 import ensta.util.Orientation;
 import ensta.ai.BattleShipsAI;
 import ensta.model.Hit;
+import java.util.Scanner;
 
 public class Main {
+
+  private static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String args[]) {
 
@@ -52,8 +55,31 @@ public class Main {
     // }while(compteur < ships.length);
 
 
-    /*******************Test exercice 8*******************************/
-    new Game().init().run();
+    /*******************Test exercice 8 + Bonus*******************************/
+    boolean multiplayer=false;
+    boolean done = false;
+    System.out.println("Veuillez saisir le mode de jeu: (1) Joueur Contre IA (2) Joueur Contre Joueur");
+    do {
+			try {
+				String[] in = scanner.nextLine().toLowerCase().split(" ");
+				if (in.length == 1) {
+					String value = in[0];
+					if (value.equals("1")) {
+						multiplayer = false;
+            done = true;
+					}else if(value.equals("2")){
+            multiplayer = true;
+            done = true;
+          }
+				}
+			} catch (Exception e) {}
+			if (!done) {
+				System.err.println("Format incorrect! Veuillez saisir '1' ou '2'");
+			}
+		} while (!done && scanner.hasNextLine());
+    new Game(multiplayer).init().run();
+
+
   }
 
   private static void sleep(int ms) {
