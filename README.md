@@ -5,7 +5,7 @@
 Voici la commande a exécuter dans le terminal dans le dossier "bataille_navale" afin de compiler le code:
 
 ```bash
- sudo mvn clean install exec:java
+	mvn clean install exec:java
 ```
 
 ## Execution du fichier .jar
@@ -13,7 +13,7 @@ Voici la commande a exécuter dans le terminal dans le dossier "bataille_navale"
  On se place dans le dossier target du projet maven et on execute via le terminal la commande suivante:
  
 ```console
-  java -cp bataille-navale-1.0-SNAPSHOT.jar ensta.Main
+	java -jar bataille-navale-1.0-SNAPSHOT.jar
 ```
 
 ## Explication du programme
